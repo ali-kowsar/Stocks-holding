@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Upstox Holding</string>
+    <string name="rupee">\u20B9</string>
+    <string name="rupee_rs">\u20A8</string>
+    <string name="pl">P/L: </string>
+    <string name="ltp">LTP: </string>
+    <string name ="currentval">Current Value:</string>
+    <string name ="investment">Total Investment:</string>
+    <string name ="todayspl">Today\'s profit &amp; Loss</string>
+    <string name ="totalpl">Profit &amp; Loss:</string>
+    <string name="loading_timeout">Data not fetch due to Network error!!! Please try again</string>
+
+</resources>
