@@ -12,13 +12,12 @@ object StcoksRepository {
     private val TAG = StcoksRepository::class.java.simpleName
     val stcoksHolding = MutableLiveData<StocksHolding>()
 
-    fun getServicesApiCall(): MutableLiveData<StocksHolding> {
+    fun getStocksdata(): MutableLiveData<StocksHolding> {
 
-        val call = StocksRetrofitService.getApiService()?.getServices()
+        val call = StocksRetrofitService.getApiService()?.getStocksHolding()
 
         call?.enqueue(object : Callback<StocksHolding> {
             override fun onFailure(call: Call<StocksHolding>, t: Throwable) {
-                // TODO("Not yet implemented")
                 Log.v(TAG, "Failure ${t.message.toString()}")
 
             }
@@ -26,7 +25,6 @@ object StcoksRepository {
             override fun onResponse(
                 call: Call<StocksHolding>, response: Response<StocksHolding>
             ) {
-                // TODO("Not yet implemented")
                 Log.v(TAG, "Response: ${response.body().toString()}")
                 if (response.isSuccessful) {
                     Log.d(TAG, "onResponse(): Response success. data=" + response.body())

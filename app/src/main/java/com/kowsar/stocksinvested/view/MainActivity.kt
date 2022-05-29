@@ -1,10 +1,8 @@
 package com.kowsar.stocksinvested.view
 
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.Gravity
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -30,9 +28,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var progressLayout:FrameLayout
 
     private var viewManager = LinearLayoutManager(this)
-    private lateinit var viewModel: StocksViewModel
-    private lateinit var mainrecycler: RecyclerView
-    private lateinit var but: Button
+    private lateinit var viewModelStocks: StocksViewModel
+    private lateinit var recyclerViewSH: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_activity)
@@ -44,10 +41,10 @@ class MainActivity : AppCompatActivity() {
             loadingTimeout.visibility = View.VISIBLE
         },5000)
 
-        mainrecycler.layoutManager = viewManager
+        recyclerViewSH.layoutManager = viewManager
         val factory = StocksViewModelFactory()
-        viewModel = ViewModelProviders.of(this, factory).get(StocksViewModel::class.java)
-        viewModel.getHoldingStocks()!!.observe(this, Observer { stocksHolding ->
+        viewModelStocks = ViewModelProviders.of(this, factory).get(StocksViewModel::class.java)
+        viewModelStocks.getHoldingStocks()!!.observe(this, Observer { stocksHolding ->
             mHandler!!.removeCallbacksAndMessages(null)
             var stocks = stocksHolding.data
             val currentValue = getCurrentVal(stocks)
@@ -57,8 +54,8 @@ class MainActivity : AppCompatActivity() {
             totalInvestment.text = "${resources.getString(R.string.rupee)} ${String.format("%.2f", totalInvestmentVal)}"
             totalPL.text = "${resources.getString(R.string.rupee)} ${(currentValue?.minus( totalInvestmentVal)).toString()}"
             todaysPL.text = "${resources.getString(R.string.rupee)} ${String.format("%.2f", todaysPLVal)}"
-            mainrecycler.adapter = StocksRecyclerAdapter(viewModel, stocks, this)
-            mainrecycler.adapter?.notifyDataSetChanged()
+            recyclerViewSH.adapter = StocksRecyclerAdapter(viewModelStocks, stocks, this)
+            recyclerViewSH.adapter?.notifyDataSetChanged()
             progressLayout.visibility = View.GONE
 
         })
@@ -97,7 +94,7 @@ class MainActivity : AppCompatActivity() {
     private fun initViews() {
         Log.v(TAG, "initViews(): Enter")
         setSupportActionBar(findViewById(R.id.toolbar))
-        mainrecycler = findViewById(R.id.recycler)
+        recyclerViewSH = findViewById(R.id.recycler)
         currentVal=findViewById(R.id.currentval)
         totalInvestment = findViewById(R.id.total_investment)
         todaysPL = findViewById(R.id.todays_pl)
